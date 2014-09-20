@@ -1,0 +1,13 @@
+﻿<Window x:Class="XClip.Client.Views.Notify"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:custom="clr-namespace:XClip.Client.Controls"
+        Title="Notify" Height="Auto" Width="Auto"
+        ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="None" 
+        Background="Transparent"
+        AllowsTransparency="True" SizeToContent="WidthAndHeight" Topmost="True" x:Name="me" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
+        >
+    <StackPanel MaxHeight="200" MaxWidth="200" Background="Transparent">
+        <custom:ClipMessageControl x:Name="_clipMessage" />
+    </StackPanel> 
+</Window>
