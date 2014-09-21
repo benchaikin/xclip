@@ -4,7 +4,8 @@
         xmlns:Core="clr-namespace:XClip.Client.Core" x:Class="XClip.Client.Views.Configuration"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ListView x:Name="_peerList" Height="194" Margin="45,32,0,0" VerticalAlignment="Top" Width="356">
+        <Button Height="25" Width="150" VerticalAlignment="Top" Click="Button_Click">Connect</Button>
+        <ListView x:Name="_peerList" Height="194" Margin="66,94,95,0" VerticalAlignment="Top" Width="356">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name">

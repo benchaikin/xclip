@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR.Client;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -85,6 +86,18 @@ namespace XClip.Client.Views
                 Clip clip = (Clip)formatter.Deserialize(stream);
                 _clipboardAdapter.SetClipboard(clip);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var hubConnection = new HubConnection("http://localhost:50255/signalr");
+            IHubProxy stockTickerHubProxy = hubConnection.CreateHubProxy("TestHub");
+            stockTickerHubProxy.On<string>("ReceiveMessage", 
+                message => 
+                    Console.WriteLine("Got message {0}", message));
+            hubConnection.Start().Wait();
+
+            stockTickerHubProxy.Invoke("Echo", "testing, 123!");
         }
     }
 }
