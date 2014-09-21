@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using XClip.Client.Communications;
+using XClip.Client.Core;
 
 namespace XClip.Client.Views
 {
@@ -32,7 +33,7 @@ namespace XClip.Client.Views
             InitializeComponent();
         }
 
-        public void DisplayClipMessage(ClipMessage message)
+        public void DisplayClipMessage(Clip message)
         {
             SetLocation();
             _timer = new Timer(OnTimerElapsed, null, _visibleFor * 1000, Timeout.Infinite);

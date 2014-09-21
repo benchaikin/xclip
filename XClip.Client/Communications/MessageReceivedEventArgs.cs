@@ -8,9 +8,9 @@ namespace XClip.Client.Communications
 {
     public class MessageReceivedEventArgs : EventArgs
     {
-        public ClipMessage Message { get; protected set; }
+        public Clip Message { get; protected set; }
 
-        public MessageReceivedEventArgs(ClipMessage message)
+        public MessageReceivedEventArgs(Clip message)
         {
             Message = message;
         }

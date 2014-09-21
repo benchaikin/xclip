@@ -35,17 +35,17 @@ namespace XClip.Client.Controls
             renderMappings.Add(DataFormats.Dib, () => new ImageClipRenderer());
 
 
-            ClipMessage message = e.NewValue as ClipMessage;
+            Clip message = e.NewValue as Clip;
             if (message == null) return;
 
             IClipRenderer renderer = new DefaultClipRenderer();
-            ClipObject clipObject = message.Payload.FirstOrDefault();
+            ClipObject clipObject = message.FirstOrDefault();
 
             foreach (var mapping in renderMappings)
             {
-                if (message.Payload.Any(clip => clip.Format == mapping.Key))
+                if (message.Any(clip => clip.Format == mapping.Key))
                 {
-                    clipObject = message.Payload.First(clip => clip.Format == mapping.Key);
+                    clipObject = message.First(clip => clip.Format == mapping.Key);
                     renderer = mapping.Value();
                     
                     break;

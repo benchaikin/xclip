@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace XClip.Server.Hubs
 {
-    public interface ITestHub
+    public interface IXClipClient
     {
-        void ReceiveMessage(string message);
+        void ConnectionEstablished();
+        void InvalidLogin();
     }
 }

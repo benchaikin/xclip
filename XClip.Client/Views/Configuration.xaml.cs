@@ -27,7 +27,6 @@ namespace XClip.Client.Views
     public partial class Configuration : Window
     {
         private ClipboardAdapter _clipboardAdapter;
-        private PeerManager _discoveryService;
         private Notify _notify;
 
         public Configuration()
@@ -37,10 +36,6 @@ namespace XClip.Client.Views
             _notify = new Notify();
             _notify.Show();
             Loaded += Configuration_Loaded;
-            ClipReceiver.Instance.StartReceiving();
-            ClipReceiver.Instance.MessageReceived += OnMessageReceived;
-            _discoveryService = new PeerManager();
-            _discoveryService.PeerListUpdated += OnPeerListUpdated;
             Closing += Configuration_Closing;
         }
 
@@ -52,30 +47,19 @@ namespace XClip.Client.Views
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            _notify.DisplayClipMessage(e.Message);
-            _clipboardAdapter.SetClipboard(e.Message.Payload);
+            _clipboardAdapter.SetClipboard(e.Message);
         }
 
-        void OnPeerListUpdated(object sender, EventArgs e)
-        {
-            Dispatcher.Invoke((Action)UpdatePeerList);
-        }
-
-        private void UpdatePeerList()
-        {
-            _peerList.ItemsSource = _discoveryService.Peers;
-        }
 
         void OnClipAvailable(object sender, Core.ClipAvailableEventArgs e)
         {
-            _discoveryService.SendClipToPeers(e.NewClip);
+            
         }
 
         void Configuration_Loaded(object sender, RoutedEventArgs e)
         {
             _clipboardAdapter = new ClipboardAdapter(new WindowInteropHelper(this).Handle);
-            _clipboardAdapter.ClipAvailable += OnClipAvailable;
-            _discoveryService.StartDiscovery();
+            _clipboardAdapter.ClipAvailable += OnClipAvailable; 
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -91,13 +75,16 @@ namespace XClip.Client.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var hubConnection = new HubConnection("http://localhost:50255/signalr");
-            IHubProxy stockTickerHubProxy = hubConnection.CreateHubProxy("TestHub");
-            stockTickerHubProxy.On<string>("ReceiveMessage", 
-                message => 
-                    Console.WriteLine("Got message {0}", message));
+            IHubProxy stockTickerHubProxy = hubConnection.CreateHubProxy("XClipHub");
+            stockTickerHubProxy.On("ConnectionEstablished", 
+                () => 
+                    Console.WriteLine("Connection Established"));
+            stockTickerHubProxy.On("InvalidLogin",
+                () =>
+                    Console.WriteLine("InvalidLogin"));
             hubConnection.Start().Wait();
 
-            stockTickerHubProxy.Invoke("Echo", "testing, 123!");
+            stockTickerHubProxy.Invoke("Login", "ben", "password");
         }
     }
 }

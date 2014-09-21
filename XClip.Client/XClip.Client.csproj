@@ -86,14 +86,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Communications\ClipMessage.cs" />
-    <Compile Include="Communications\Identity.cs" />
+    <Compile Include="Communications\SignalRClient.cs" />
+    <Compile Include="Communications\IClipClient.cs" />
     <Compile Include="Communications\MessageReceivedEventArgs.cs" />
-    <Compile Include="Communications\PeerManager.cs" />
-    <Compile Include="Communications\ClipReceiver.cs" />
-    <Compile Include="Communications\IPeerService.cs" />
-    <Compile Include="Communications\Peer.cs" />
-    <Compile Include="Communications\PeerService.cs" />
     <Compile Include="Controls\ClipMessageControl.xaml.cs">
       <DependentUpon>ClipMessageControl.xaml</DependentUpon>
     </Compile>

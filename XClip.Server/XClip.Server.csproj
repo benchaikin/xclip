@@ -185,8 +185,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\ITestHub.cs" />
-    <Compile Include="Hubs\TestHub.cs" />
+    <Compile Include="Hubs\IXClipClient.cs" />
+    <Compile Include="Hubs\XClipHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
