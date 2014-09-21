@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using XClip.Client.Communications;
-using XClip.Client.Core;
+using XClip.Core;
 
 namespace XClip.Client.Views
 {

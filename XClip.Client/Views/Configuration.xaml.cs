@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using XClip.Client.Communications;
-using XClip.Client.Core;
+using XClip.Core;
 
 namespace XClip.Client.Views
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XClip.Client.Core;
+using XClip.Core;
 
 namespace XClip.Client.Communications
 {

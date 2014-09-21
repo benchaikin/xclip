@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XClip.Client.Core;
+using XClip.Core;
 using XClip.Client.Properties;
 
 namespace XClip.Client.Communications

@@ -1,5 +1,5 @@
 ﻿using System;
-using XClip.Client.Core;
+using XClip.Core;
 
 namespace XClip.Client.Controls
 {
