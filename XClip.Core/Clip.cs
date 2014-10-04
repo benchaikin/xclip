@@ -7,7 +7,9 @@ using System.Text;
 namespace XClip.Core
 {
     [Serializable]
-    public class Clip : List<ClipObject>
+    public class Clip 
     {
+        public string HostName { get; set; }
+        public List<ClipObject> ClipObjects { get; set; }
     }
 }

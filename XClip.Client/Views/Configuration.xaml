@@ -4,7 +4,21 @@
         xmlns:Core="clr-namespace:XClip.Core" x:Class="XClip.Client.Views.Configuration"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button Height="25" Width="150" VerticalAlignment="Top" Click="Button_Click">Connect</Button>
+        <StackPanel Orientation="Vertical">
+            
+        
+            <StackPanel Orientation="Horizontal">
+                <Label Width="100">User name:</Label>
+                <TextBox x:Name="UserName" MinWidth="200" Height="25" VerticalAlignment="Top"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Width="100">Password:</Label>
+                <PasswordBox x:Name="Password" MinWidth="200" Height="25" VerticalAlignment="Top"></PasswordBox>
+            </StackPanel>
+            <Button Height="25" Width="150" VerticalAlignment="Top" Click="Button_Click">Connect</Button>
+        </StackPanel>
+        
+        
         <ListView x:Name="_peerList" Height="194" Margin="66,94,95,0" VerticalAlignment="Top" Width="356">
             <ListView.View>
                 <GridView>

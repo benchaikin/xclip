@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
@@ -33,10 +34,15 @@ namespace XClip.Core
 
         public void SetClipboard(Clip clip)
         {
-            IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
-            _source.RemoveHook(_hook);
-            Clipboard.SetDataObject(obj);
-            _source.AddHook(_hook);
+            Thread thread = new Thread(() =>
+                {
+                    IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
+                    _source.RemoveHook(_hook);
+                    Clipboard.SetDataObject(obj);
+                    _source.AddHook(_hook);
+                });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

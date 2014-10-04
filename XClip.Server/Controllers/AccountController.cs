@@ -41,7 +41,7 @@ namespace XClip.Server.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl = "/")
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +59,27 @@ namespace XClip.Server.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ClientLogin(string username, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindAsync(username, password);
+                if (user != null)
+                {
+                    await SignInAsync(user, false);
+                    return null;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid username or password.");
+                }
+            }
+
+            return null;
         }
 
         //

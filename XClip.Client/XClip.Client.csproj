@@ -91,9 +91,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Communications\AuthorizationClient.cs" />
     <Compile Include="Communications\SignalRClient.cs" />
     <Compile Include="Communications\IClipClient.cs" />
-    <Compile Include="Communications\MessageReceivedEventArgs.cs" />
     <Compile Include="Controls\ClipMessageControl.xaml.cs">
       <DependentUpon>ClipMessageControl.xaml</DependentUpon>
     </Compile>

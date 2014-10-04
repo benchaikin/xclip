@@ -39,13 +39,13 @@ namespace XClip.Client.Controls
             if (message == null) return;
 
             IClipRenderer renderer = new DefaultClipRenderer();
-            ClipObject clipObject = message.FirstOrDefault();
+            ClipObject clipObject = message.ClipObjects.FirstOrDefault();
 
             foreach (var mapping in renderMappings)
             {
-                if (message.Any(clip => clip.Format == mapping.Key))
+                if (message.ClipObjects.Any(clip => clip.Format == mapping.Key))
                 {
-                    clipObject = message.First(clip => clip.Format == mapping.Key);
+                    clipObject = message.ClipObjects.First(clip => clip.Format == mapping.Key);
                     renderer = mapping.Value();
                     
                     break;

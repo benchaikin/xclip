@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XClip.Core;
 
 namespace XClip.Server.Hubs
 {
@@ -10,5 +11,6 @@ namespace XClip.Server.Hubs
     {
         void ConnectionEstablished();
         void InvalidLogin();
+        void ClipReceived(Clip clip);
     }
 }

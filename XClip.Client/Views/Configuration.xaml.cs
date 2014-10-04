@@ -27,36 +27,40 @@ namespace XClip.Client.Views
     public partial class Configuration : Window
     {
         private ClipboardAdapter _clipboardAdapter;
+        private IClipClient _client;
         private Notify _notify;
 
         public Configuration()
         {
-
             InitializeComponent();
             _notify = new Notify();
             _notify.Show();
-            Loaded += Configuration_Loaded;
-            Closing += Configuration_Closing;
+            Loaded += OnLoaded;
+            Closing += OnClosing;
+
+            // Temp
+            _client = new SignalRClient();
+            _client.ClipReceived += OnClipReceived;
         }
 
-        void Configuration_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _notify.Close();
         }
     
 
-        private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
+        private void OnClipReceived(Clip clip)
         {
-            _clipboardAdapter.SetClipboard(e.Message);
+            _clipboardAdapter.SetClipboard(clip);
         }
 
 
-        void OnClipAvailable(object sender, Core.ClipAvailableEventArgs e)
+        void OnClipAvailable(object sender, ClipAvailableEventArgs e)
         {
-            
+            _client.SendClip(e.NewClip);
         }
 
-        void Configuration_Loaded(object sender, RoutedEventArgs e)
+        void OnLoaded(object sender, RoutedEventArgs e)
         {
             _clipboardAdapter = new ClipboardAdapter(new WindowInteropHelper(this).Handle);
             _clipboardAdapter.ClipAvailable += OnClipAvailable; 
@@ -74,17 +78,7 @@ namespace XClip.Client.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var hubConnection = new HubConnection("http://localhost:50255/signalr");
-            IHubProxy stockTickerHubProxy = hubConnection.CreateHubProxy("XClipHub");
-            stockTickerHubProxy.On("ConnectionEstablished", 
-                () => 
-                    Console.WriteLine("Connection Established"));
-            stockTickerHubProxy.On("InvalidLogin",
-                () =>
-                    Console.WriteLine("InvalidLogin"));
-            hubConnection.Start().Wait();
-
-            stockTickerHubProxy.Invoke("Login", "ben", "password");
+            _client.Login(UserName.Text, Password.Password);
         }
     }
 }

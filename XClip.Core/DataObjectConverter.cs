@@ -12,7 +12,11 @@ namespace XClip.Core
     {
         public Clip CreateClip(IDataObject data)
         {
-            var result = new Clip();
+            var result = new Clip()
+            {
+                HostName = Environment.MachineName,
+                ClipObjects = new List<ClipObject>()
+            };
 
             var formats = data.GetFormats(false);
             foreach (var format in formats)
@@ -29,7 +33,7 @@ namespace XClip.Core
                     formatter.Serialize(stream, clipObject);
                 }
 
-                result.Add(new ClipObject(format, stream.ToArray(), isStream));
+                result.ClipObjects.Add(new ClipObject(format, stream.ToArray(), isStream));
                 stream.Close();
             }
 
@@ -40,7 +44,7 @@ namespace XClip.Core
         {
             IDataObject result = new DataObject();
 
-            foreach (ClipObject clipObject in clip)
+            foreach (ClipObject clipObject in clip.ClipObjects)
             {
                 result.SetData(clipObject.Format, GetClipObjectData(clipObject));
             }
