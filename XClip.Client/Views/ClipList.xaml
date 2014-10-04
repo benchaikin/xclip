@@ -4,25 +4,26 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:views="clr-namespace:XClip.Client.Views"
         xmlns:xclip="clr-namespace:XClip.Client.Controls"
+        Visibility="Hidden"
         Title="ClipList" Width="300">
     <Grid>
         <tb:TaskbarIcon 
             x:Name="_taskbarIcon"
-                         Visibility="Visible"
-                         ToolTipText="XClip Client"
-                    IconSource="/Resources/Paste.ico"
-                    MenuActivation="RightClick"
-                    PopupActivation="LeftOrDoubleClick"
-                        >
+            Visibility="Visible"
+            ToolTipText="XClip Client"
+            IconSource="/Resources/Paste.ico"
+            MenuActivation="RightClick"
+            PopupActivation="LeftOrDoubleClick"
+            >
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Options...">
+                    <MenuItem Header="Options..." Click="OnOptionsClicked">
                         <MenuItem.Icon>
                             <Image Source="/Resources/PropertyIcon.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Header="Exit">
+                    <MenuItem Header="Exit" Click="OnExitClicked">
                         <MenuItem.Icon>
                             <Image Source="/Resources/close.png" />
                         </MenuItem.Icon>

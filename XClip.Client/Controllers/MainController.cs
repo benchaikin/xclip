@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using XClip.Client.Communications;
 using XClip.Client.Views;
 using XClip.Core;
@@ -23,7 +24,8 @@ namespace XClip.Client.Controllers
 
             _clipListView = clipListView;
             _clipListView.ClipSelected += OnClipSelected;
-
+            _clipListView.Exit += OnExit;
+            _clipListView.ShowOptions += OnShowOptions;
             _clipboard = clipboard;
             _clipboard.ClipAvailable += OnClipAvailable;
             _clipListView.ShowWindow();
@@ -36,10 +38,24 @@ namespace XClip.Client.Controllers
 
         }
 
+        #region ClipList events
+
+        private void OnShowOptions()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnExit()
+        {
+            Application.Current.Shutdown();
+        }
+
         private void OnClipSelected(Clip clip)
         {
             _clipboard.SetClipboard(clip);
         }
+
+    #endregion
 
         private void OnClipAvailable(object sender, ClipAvailableEventArgs e)
         {

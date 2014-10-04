@@ -24,8 +24,11 @@ namespace XClip.Client.Views
     /// </summary>
     public partial class ClipList : BaseView, IClipListView
     {
-        private ObservableCollection<Clip> _clips = new ObservableCollection<Clip>();
         public event Action<Clip> ClipSelected;
+        public event Action Exit;
+        public event Action ShowOptions;
+
+        private ObservableCollection<Clip> _clips = new ObservableCollection<Clip>();
 
         public ClipList()
         {
@@ -57,6 +60,24 @@ namespace XClip.Client.Views
             {
                 var clip = _listView.SelectedItem as Clip;
                 ClipSelected(clip);
+            }
+
+            _taskbarIcon.TrayPopupResolved.IsOpen = false;
+        }
+
+        private void OnExitClicked(object sender, RoutedEventArgs e)
+        {
+            if (Exit != null)
+            {
+                Exit();
+            }
+        }
+
+        private void OnOptionsClicked(object sender, RoutedEventArgs e)
+        {
+            if (ShowOptions != null)
+            {
+                ShowOptions();
             }
         }
     }
