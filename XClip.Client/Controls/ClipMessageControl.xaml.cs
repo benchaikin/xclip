@@ -21,27 +21,28 @@ namespace XClip.Client.Controls
     /// </summary>
     public partial class ClipMessageControl : UserControl
     {
+        private Dictionary<string, Func<IClipRenderer>> _renderMappings;
+
         public ClipMessageControl()
         {
+            _renderMappings = new Dictionary<string, Func<IClipRenderer>>();
+            _renderMappings.Add(DataFormats.Rtf, () => new TextClipRenderer());
+            _renderMappings.Add(DataFormats.Text, () => new TextClipRenderer());
+            _renderMappings.Add(DataFormats.Dib, () => new ImageClipRenderer());
+
             InitializeComponent();
             DataContextChanged += ClipMessageControl_DataContextChanged;
         }
 
         void ClipMessageControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var renderMappings = new Dictionary<string, Func<IClipRenderer>>();
-            renderMappings.Add(DataFormats.Rtf, () => new TextClipRenderer());
-            renderMappings.Add(DataFormats.Text, () => new TextClipRenderer());
-            renderMappings.Add(DataFormats.Dib, () => new ImageClipRenderer());
-
-
             Clip message = e.NewValue as Clip;
             if (message == null) return;
 
             IClipRenderer renderer = new DefaultClipRenderer();
             ClipObject clipObject = message.ClipObjects.FirstOrDefault();
 
-            foreach (var mapping in renderMappings)
+            foreach (var mapping in _renderMappings)
             {
                 if (message.ClipObjects.Any(clip => clip.Format == mapping.Key))
                 {

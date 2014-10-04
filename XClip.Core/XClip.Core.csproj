@@ -46,6 +46,7 @@
     <Compile Include="ClipboardAdapter.cs" />
     <Compile Include="ClipObject.cs" />
     <Compile Include="DataObjectConverter.cs" />
+    <Compile Include="IClipboardAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -37,6 +37,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.5\lib\net45\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
@@ -44,6 +47,12 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\packages\SimpleInjector.2.5.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\packages\SimpleInjector.2.5.2\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -92,8 +101,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Communications\AuthorizationClient.cs" />
+    <Compile Include="Communications\IAuthorizationClient.cs" />
     <Compile Include="Communications\SignalRClient.cs" />
     <Compile Include="Communications\IClipClient.cs" />
+    <Compile Include="Controllers\IMainController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controls\ClipMessageControl.xaml.cs">
       <DependentUpon>ClipMessageControl.xaml</DependentUpon>
     </Compile>
@@ -107,16 +119,25 @@
     <Compile Include="Controls\TextClipRenderer.xaml.cs">
       <DependentUpon>TextClipRenderer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DependencyInjection\XClipContainer.cs" />
     <Compile Include="Views\Configuration.xaml.cs">
       <DependentUpon>Configuration.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Notify.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\ILoginView.cs" />
+    <Compile Include="Views\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Notify.xaml.cs">
       <DependentUpon>Notify.xaml</DependentUpon>
     </Compile>
@@ -153,6 +174,9 @@
       <Project>{0c4c2628-d734-4d13-9881-e3dfee22a32a}</Project>
       <Name>XClip.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\paste.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XClip.Core;
-using XClip.Client.Properties;
 using System.Net;
+using XClip.Client.Properties;
+using XClip.Core;
 
 namespace XClip.Client.Communications
 {
@@ -18,38 +15,54 @@ namespace XClip.Client.Communications
         private HubConnection _connection;
         private IHubProxy _server;
         private const string _hubName = "XClipHub";
-        private const string _authHeader = "xclip-auth";
         private bool _isConnected = false;
-        private string _authToken = null;
 
+        private readonly IAuthorizationClient _authorizationClient;
+
+        public SignalRClient(IAuthorizationClient authorizationClient)
+        {
+            _authorizationClient = authorizationClient;
+        }
 
         public void Login(string username, string password)
         {
-            var authHelper = new AuthorizationClient();
-            string token = authHelper.AuthenticateUser(username, password);
+            string token = null;
 
-            // Create connection and proxy
-            _connection = new HubConnection(Settings.Default.ServerUrl + "/signalr");
-            _connection.CookieContainer = new CookieContainer();
-            _connection.CookieContainer.Add(new Cookie(".AspNet.ApplicationCookie", token, "/", "localhost"));
-            _connection.Closed += OnConnectionClosed;
-            _server = _connection.CreateHubProxy(_hubName);
+            if (_authorizationClient.AuthenticateUser(username, password, out token))
+            {
+                var serverUri = new Uri(Settings.Default.ServerUrl);
+                // Create connection and proxy
+                _connection = new HubConnection(Settings.Default.ServerUrl + "/signalr");
+                _connection.CookieContainer = new CookieContainer();
+                _connection.CookieContainer.Add(new Cookie(AuthorizationClient.AuthCookieName, token, "/", serverUri.Host));
+                _connection.Closed += OnConnectionClosed;
+                _server = _connection.CreateHubProxy(_hubName);
 
-            // Subscribe to messages
-            _server.On("ConnectionEstablished", OnConnectionEstablished);
-            _server.On("InvalidLogin", OnInvalidLogin);
-            _server.On("ClipReceived", (Clip clip) => OnClipReceived(clip));
+                // Subscribe to messages
+                _server.On("ConnectionEstablished", OnConnectionEstablished);
+                _server.On("ClipReceived", (Clip clip) => OnClipReceived(clip));
 
-            // Start listening
-            _connection.Start().Wait();
-        
-            _server.Invoke("Login");
+                // Start listening
+                _connection.Start().Wait();
+
+                _server.Invoke("Login");
+            }
+            else
+            {
+                if (InvalidLogin != null)
+                {
+                    InvalidLogin();
+                }
+            }
             
         }
 
         public void SendClip(Clip clip)
         {
-            _server.Invoke("SendClip", clip);
+            if (_isConnected)
+            {
+                _server.Invoke("SendClip", clip);
+            }
         }
 
         public void Dispose()
@@ -71,16 +84,7 @@ namespace XClip.Client.Communications
 
         private void OnConnectionClosed()
         {
-            _authToken = null;
             _isConnected = false;
-        }
-
-        private void OnInvalidLogin()
-        {
-            if (InvalidLogin != null)
-            {
-                InvalidLogin();
-            }
         }
 
         private void OnClipReceived(Clip clip)

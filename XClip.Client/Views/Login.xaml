@@ -1,0 +1,29 @@
+﻿<Window x:Class="XClip.Client.Views.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Resources/Paste.ico"
+        Title="XClip - Login"
+        FocusManager.FocusedElement="{Binding ElementName=_username}"
+        >
+
+    <Grid>
+
+        <StackPanel Margin="20 10" Orientation="Vertical">
+
+            <StackPanel Orientation="Horizontal">
+                <Label Width="80">User name:</Label>
+                <TextBox Focusable="True" x:Name="_username" MinWidth="150" VerticalContentAlignment="Center"></TextBox>
+            </StackPanel>
+            <StackPanel Margin="0 5" Orientation="Horizontal">
+                <Label Width="80">Password:</Label>
+                <PasswordBox x:Name="_password" MinWidth="150" VerticalContentAlignment="Center"></PasswordBox>
+            </StackPanel>
+            <TextBlock Visibility="Collapsed" x:Name="_errorMessage" Margin="0 0 0 5" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Red"></TextBlock>
+            <ProgressBar Visibility="Collapsed" x:Name="_progressBar" IsIndeterminate="True" Height="25" />
+            <Button x:Name="_connect" Click="OnConnectClick" Margin ="0 10 0 0" Width="100" Height="25" HorizontalAlignment="Right" IsDefault="True">Connect</Button>
+        </StackPanel>
+    </Grid>
+</Window>

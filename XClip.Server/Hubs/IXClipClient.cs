@@ -10,7 +10,6 @@ namespace XClip.Server.Hubs
     public interface IXClipClient
     {
         void ConnectionEstablished();
-        void InvalidLogin();
         void ClipReceived(Clip clip);
     }
 }

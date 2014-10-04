@@ -39,8 +39,10 @@ namespace XClip.Client.Views
             Closing += OnClosing;
 
             // Temp
-            _client = new SignalRClient();
+            //_client = new SignalRClient();
             _client.ClipReceived += OnClipReceived;
+            _client.ConnectionEstablished += OnConnectionEstablished;
+            _client.InvalidLogin += OnInvalidLogin;
         }
 
         void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -51,18 +53,28 @@ namespace XClip.Client.Views
 
         private void OnClipReceived(Clip clip)
         {
-            _clipboardAdapter.SetClipboard(clip);
+            _notify.DisplayClipMessage(clip);
+            //_clipboardAdapter.SetClipboard(clip);
         }
 
+        private void OnConnectionEstablished()
+        {
+            MessageBox.Show("Connection established");
+        }
 
-        void OnClipAvailable(object sender, ClipAvailableEventArgs e)
+        private void OnInvalidLogin()
+        {
+            MessageBox.Show("Login failed");
+        }
+
+        private void OnClipAvailable(object sender, ClipAvailableEventArgs e)
         {
             _client.SendClip(e.NewClip);
         }
 
         void OnLoaded(object sender, RoutedEventArgs e)
         {
-            _clipboardAdapter = new ClipboardAdapter(new WindowInteropHelper(this).Handle);
+            //_clipboardAdapter = new ClipboardAdapter(new WindowInteropHelper(this).Handle);
             _clipboardAdapter.ClipAvailable += OnClipAvailable; 
         }
 

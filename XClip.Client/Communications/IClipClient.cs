@@ -1,5 +1,6 @@
 ﻿using System;
 using XClip.Core;
+
 namespace XClip.Client.Communications
 {
     public interface IClipClient : IDisposable

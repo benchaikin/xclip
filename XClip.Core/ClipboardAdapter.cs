@@ -10,15 +10,16 @@ using System.Windows.Interop;
 
 namespace XClip.Core
 {
-    public partial class ClipboardAdapter
+    public partial class ClipboardAdapter : IClipboardAdapter
     {
         public event EventHandler<ClipAvailableEventArgs> ClipAvailable;
+        public bool IsListening { get; set; }
 
         private IntPtr _nextClipboardViewer;
         private HwndSourceHook _hook;
         private HwndSource _source;
 
-        public ClipboardAdapter(IntPtr handle)
+        public void Initialize(IntPtr handle)
         {           
             _source = HwndSource.FromHwnd(handle);
             _hook = new HwndSourceHook(WndProc);
@@ -28,8 +29,11 @@ namespace XClip.Core
 
         ~ClipboardAdapter()
         {
-            ChangeClipboardChain(_source.Handle, _nextClipboardViewer);
-            _source.RemoveHook(_hook);
+            if (_source != null)
+            {
+                ChangeClipboardChain(_source.Handle, _nextClipboardViewer);
+                _source.RemoveHook(_hook);
+            }
         }
 
         public void SetClipboard(Clip clip)
@@ -58,10 +62,11 @@ namespace XClip.Core
 
                     var clip = new DataObjectConverter().CreateClip(obj);
 
-                    if (ClipAvailable != null)
+                    if (IsListening && ClipAvailable != null)
                     {
                         Task.Factory.StartNew(() => ClipAvailable(this, new ClipAvailableEventArgs(clip)));
                     }
+
                     SendMessage(_nextClipboardViewer, msg, wParam, lParam);
                     break;
 
