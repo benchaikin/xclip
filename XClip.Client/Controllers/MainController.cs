@@ -22,6 +22,7 @@ namespace XClip.Client.Controllers
             _loginView.CredentialsSubmitted += OnCredentialsSubmitted;
 
             _clipListView = clipListView;
+            _clipListView.ClipSelected += OnClipSelected;
 
             _clipboard = clipboard;
             _clipboard.ClipAvailable += OnClipAvailable;
@@ -33,6 +34,11 @@ namespace XClip.Client.Controllers
             _client.ConnectionEstablished += OnConnectionEstablished;
             _client.InvalidLogin += OnInvalidLogin;
 
+        }
+
+        private void OnClipSelected(Clip clip)
+        {
+            _clipboard.SetClipboard(clip);
         }
 
         private void OnClipAvailable(object sender, ClipAvailableEventArgs e)

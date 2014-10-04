@@ -7,13 +7,21 @@
              d:DesignHeight="200" d:DesignWidth="200" Width="200"
              Background="Transparent">
 
-    <Button Cursor="Hand" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent">
 
-        <ContentControl x:Name="_clipContainer" Background="Transparent">
+    <StackPanel Orientation="Vertical">
+
+        <StackPanel x:Name="_extraInfo" Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Text="{Binding HostName}" />
+            <TextBlock> -</TextBlock>
+            <TextBlock Text="{Binding TimeStamp}" />
+        </StackPanel>
+
+        <ContentControl Grid.Row="1" x:Name="_clipContainer" Background="Transparent">
             <ContentControl.Effect>
                 <DropShadowEffect />
             </ContentControl.Effect>
         </ContentControl>
+    </StackPanel>
 
-    </Button>   
+
 </UserControl>

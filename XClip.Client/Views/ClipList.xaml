@@ -30,7 +30,10 @@
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <tb:TaskbarIcon.TrayPopup>
-                <ListBox x:Name="_listView" Background="Transparent">
+                <ListBox x:Name="_listView" SelectionMode="Single" MouseUp="OnMouseUp">
+                    <ListBox.Background>
+                        <SolidColorBrush Color="White" Opacity=".7" />
+                    </ListBox.Background>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -38,13 +41,12 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <xclip:ClipMessageControl DataContext="{Binding}" />
+                            <xclip:ClipMessageControl Cursor="Hand" DataContext="{Binding}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </tb:TaskbarIcon.TrayPopup>
-            
-            
+
         </tb:TaskbarIcon>
     </Grid>
 </views:BaseView>

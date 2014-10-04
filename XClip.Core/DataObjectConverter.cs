@@ -15,6 +15,7 @@ namespace XClip.Core
             var result = new Clip()
             {
                 HostName = Environment.MachineName,
+                TimeStamp = DateTime.UtcNow,
                 ClipObjects = new List<ClipObject>()
             };
 

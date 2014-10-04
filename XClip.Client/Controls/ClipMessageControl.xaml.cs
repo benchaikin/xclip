@@ -56,5 +56,6 @@ namespace XClip.Client.Controls
             _clipContainer.Content = renderer;
             renderer.LoadClipObject(clipObject);
         }
+
     }
 }

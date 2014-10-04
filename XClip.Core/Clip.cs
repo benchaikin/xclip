@@ -10,6 +10,7 @@ namespace XClip.Core
     public class Clip 
     {
         public string HostName { get; set; }
+        public DateTime TimeStamp { get; set; }
         public List<ClipObject> ClipObjects { get; set; }
     }
 }

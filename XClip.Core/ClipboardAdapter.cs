@@ -37,16 +37,17 @@ namespace XClip.Core
         }
 
         public void SetClipboard(Clip clip)
-        {
-            Thread thread = new Thread(() =>
-                {
-                    IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
+        {  
+            //Thread thread = new Thread(() =>
+                //{
                     _source.RemoveHook(_hook);
+                    IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
+                    
                     Clipboard.SetDataObject(obj);
                     _source.AddHook(_hook);
-                });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
+               // });
+            //thread.SetApartmentState(ApartmentState.STA);
+            //thread.Start();
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -58,12 +59,11 @@ namespace XClip.Core
             switch (msg)
             {
                 case WM_DRAWCLIPBOARD:
-                    var obj = System.Windows.Clipboard.GetDataObject();
-
-                    var clip = new DataObjectConverter().CreateClip(obj);
-
                     if (IsListening && ClipAvailable != null)
                     {
+                        var obj = Clipboard.GetDataObject();
+                        var clip = new DataObjectConverter().CreateClip(obj);
+
                         Task.Factory.StartNew(() => ClipAvailable(this, new ClipAvailableEventArgs(clip)));
                     }
 

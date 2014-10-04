@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using XClip.Client.Controls;
 using XClip.Core;
 
 namespace XClip.Client.Views
@@ -23,6 +25,7 @@ namespace XClip.Client.Views
     public partial class ClipList : BaseView, IClipListView
     {
         private ObservableCollection<Clip> _clips = new ObservableCollection<Clip>();
+        public event Action<Clip> ClipSelected;
 
         public ClipList()
         {
@@ -35,13 +38,26 @@ namespace XClip.Client.Views
             Dispatcher.Invoke(() =>
             {
                 _clips.Add(clip);
-                _taskbarIcon.TrayPopup.Visibility = System.Windows.Visibility.Visible;
             });
+        }
+
+        public void NotifyClip(Clip clip)
+        {
+
         }
 
         public IntPtr WindowHandle
         {
             get { return new WindowInteropHelper(this).Handle; }
+        }
+
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (ClipSelected != null)
+            {
+                var clip = _listView.SelectedItem as Clip;
+                ClipSelected(clip);
+            }
         }
     }
 }
