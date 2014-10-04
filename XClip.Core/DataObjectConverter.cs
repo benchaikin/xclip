@@ -21,7 +21,7 @@ namespace XClip.Core
             var formats = data.GetFormats(false);
             foreach (var format in formats)
             {
-                if (format == DataFormats.MetafilePicture) continue;
+                if (format == DataFormats.MetafilePicture || format == DataFormats.EnhancedMetafile) continue;
                 var clipObject = data.GetData(format);
                 MemoryStream stream = clipObject as MemoryStream;
                 bool isStream = true;

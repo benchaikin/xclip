@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace XClip.Client.Views
 {
-    public interface ILoginView
+    public interface ILoginView : IView
     {
         event Action CredentialsSubmitted;
         string Username { get; }
         string Password { get; }
         string ErrorMessage { set; }
         bool IsProcessing { set; }
-
-
-        void Show();
-        void Close();
     }
 }

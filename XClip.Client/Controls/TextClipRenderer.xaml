@@ -5,6 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <RichTextBox x:Name="_text" IsReadOnly="true" Cursor="Hand" MaxHeight="100">
+    <RichTextBox x:Name="_text" IsReadOnly="true" Cursor="Hand" MaxHeight="100" TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="ClearType">
     </RichTextBox>
 </UserControl>

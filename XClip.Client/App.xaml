@@ -1,8 +1,11 @@
 ﻿<Application x:Class="XClip.Client.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
-             DispatcherUnhandledException="App_DispatcherUnhandledException">
+             DispatcherUnhandledException="App_DispatcherUnhandledException"
+             ShutdownMode="OnLastWindowClose"
+             >
     <Application.Resources>
         
     </Application.Resources>
+    
 </Application>

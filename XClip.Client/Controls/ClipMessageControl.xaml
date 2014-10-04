@@ -4,30 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200"
+             d:DesignHeight="200" d:DesignWidth="200" Width="200"
              Background="Transparent">
 
     <Button Cursor="Hand" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Background="Transparent">
-        <Grid  Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="25" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <ContentControl x:Name="_clipContainer" Background="Transparent">
-                <ContentControl.Effect>
-                    <DropShadowEffect />
-                </ContentControl.Effect>
-            </ContentControl>
 
-            <TextBlock FontWeight="Bold" x:Name="_identity" Grid.Row="1" Text="{Binding Sender.Name}" Background="Transparent" TextAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="0" Color="White" BlurRadius="10" />
-                </TextBlock.Effect>
-                
-            </TextBlock>
-        </Grid>
+        <ContentControl x:Name="_clipContainer" Background="Transparent">
+            <ContentControl.Effect>
+                <DropShadowEffect />
+            </ContentControl.Effect>
+        </ContentControl>
+
     </Button>   
 </UserControl>

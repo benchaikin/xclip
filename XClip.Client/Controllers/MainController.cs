@@ -14,14 +14,19 @@ namespace XClip.Client.Controllers
         private readonly ILoginView _loginView;
         private readonly IClipboardAdapter _clipboard;
         private readonly IClipClient _client;
+        private readonly IClipListView _clipListView;
 
-        public MainController(ILoginView loginView, IClipboardAdapter clipboard, IClipClient client)
+        public MainController(ILoginView loginView, IClipListView clipListView, IClipboardAdapter clipboard, IClipClient client)
         {
             _loginView = loginView;
             _loginView.CredentialsSubmitted += OnCredentialsSubmitted;
 
+            _clipListView = clipListView;
+
             _clipboard = clipboard;
             _clipboard.ClipAvailable += OnClipAvailable;
+            _clipListView.ShowWindow();
+            _clipboard.Initialize(_clipListView.WindowHandle);
 
             _client = client;
             _client.ClipReceived += OnClipReceived;
@@ -32,7 +37,7 @@ namespace XClip.Client.Controllers
 
         private void OnClipAvailable(object sender, ClipAvailableEventArgs e)
         {
-            throw new NotImplementedException();
+            _clipListView.AddClip(e.NewClip);
         }
 
         #region Communications events
@@ -46,6 +51,8 @@ namespace XClip.Client.Controllers
         public void OnConnectionEstablished()
         {
             _loginView.IsProcessing = false;
+            _loginView.CloseWindow();
+            _clipboard.IsListening = true;
         }
 
         private void OnClipReceived(Clip clip)
@@ -65,7 +72,7 @@ namespace XClip.Client.Controllers
 
         public void StartApplication()
         {
-            _loginView.Show();   
+            _loginView.ShowWindow();
         }
     }
 }

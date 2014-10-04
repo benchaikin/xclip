@@ -12,10 +12,12 @@ namespace XClip.Client.DependencyInjection
             Container container = new Container();
 
             // Register all services here
-            container.Register<ILoginView, Login>();
             container.Register<IAuthorizationClient, AuthorizationClient>();
             container.Register<IClipboardAdapter, ClipboardAdapter>();
             container.Register<IClipClient, SignalRClient>();
+
+            container.Register<ILoginView, Login>();
+            container.Register<IClipListView, ClipList>();
 
             return container;
         }

@@ -17,7 +17,7 @@ namespace XClip.Client.Views
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window, ILoginView
+    public partial class Login : BaseView, ILoginView
     {
         public event Action CredentialsSubmitted; 
 
@@ -79,13 +79,14 @@ namespace XClip.Client.Views
                 });
             }
         }
-
         private void OnConnectClick(object sender, RoutedEventArgs e)
         {
             if (CredentialsSubmitted != null)
             {
                 Task.Factory.StartNew(CredentialsSubmitted);
             }
-        } 
+        }
+
+
     }
 }
