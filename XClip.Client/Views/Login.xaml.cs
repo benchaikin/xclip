@@ -25,13 +25,6 @@ namespace XClip.Client.Views
         public Login()
         {
             InitializeComponent();
-            Closing += OnClosing;
-        }
-
-        void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Visibility = Visibility.Hidden;
-            e.Cancel = true;
         }
 
         public string Username
@@ -120,7 +113,5 @@ namespace XClip.Client.Views
         {
             Process.Start(e.Uri.ToString());
         }
-
-
     }
 }

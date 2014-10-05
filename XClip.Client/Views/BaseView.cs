@@ -9,6 +9,16 @@ namespace XClip.Client.Views
 {
     public class BaseView : Window, IView
     {
+        public BaseView()
+        {
+            Closing += OnClosing;
+        }
+
+        protected virtual void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Visibility = Visibility.Hidden;
+            e.Cancel = true;
+        }
         public void ShowWindow()
         {
             Dispatcher.Invoke(Show);

@@ -13,8 +13,10 @@ namespace XClip.Client.Controllers
         private readonly IClipboardAdapter _clipboard;
         private readonly IClipClient _client;
         private readonly IClipListView _clipListView;
+        private readonly IOptionsController _options;
 
-        public MainController(ILoginView loginView, IClipListView clipListView, IClipboardAdapter clipboard, IClipClient client)
+        public MainController(ILoginView loginView, IClipListView clipListView, IOptionsController options,
+            IClipboardAdapter clipboard, IClipClient client)
         {
             _loginView = loginView;
             _loginView.RegisterUrl = Settings.Default.ServerUrl;
@@ -39,6 +41,7 @@ namespace XClip.Client.Controllers
             _client.ConnectionEstablished += OnConnectionEstablished;
             _client.InvalidLogin += OnInvalidLogin;
 
+            _options = options;
         }
 
         #region ClipList events
@@ -56,7 +59,7 @@ namespace XClip.Client.Controllers
 
         private void OnShowOptions()
         {
-            throw new NotImplementedException();
+            _options.Show();
         }
 
         private void OnExit()

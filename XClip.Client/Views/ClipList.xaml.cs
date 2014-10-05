@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -148,9 +149,10 @@ namespace XClip.Client.Views
             }
         }
 
-        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        protected override void OnClosing(object sender, CancelEventArgs e)
         {
             _taskbarIcon.Dispose();
+            base.OnClosing(sender, e);
         }
     }
 }
