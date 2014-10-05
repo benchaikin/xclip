@@ -38,16 +38,11 @@ namespace XClip.Core
 
         public void SetClipboard(Clip clip)
         {  
-            //Thread thread = new Thread(() =>
-                //{
-                    _source.RemoveHook(_hook);
-                    IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
+                _source.RemoveHook(_hook);
+                IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
                     
-                    Clipboard.SetDataObject(obj);
-                    _source.AddHook(_hook);
-               // });
-            //thread.SetApartmentState(ApartmentState.STA);
-            //thread.Start();
+                Clipboard.SetDataObject(obj);
+                _source.AddHook(_hook);
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

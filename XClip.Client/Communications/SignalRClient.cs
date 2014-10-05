@@ -57,6 +57,17 @@ namespace XClip.Client.Communications
             
         }
 
+        public void Disconnect()
+        {
+            _isConnected = false;
+            _connection.Stop();
+        }
+
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+        }
+
         public void SendClip(Clip clip)
         {
             if (_isConnected)

@@ -25,11 +25,14 @@ namespace XClip.Client.Controllers
             _clipListView = clipListView;
             _clipListView.ClipSelected += OnClipSelected;
             _clipListView.Exit += OnExit;
+            _clipListView.ToggleConnect += OnToggleConnect;
             _clipListView.ShowOptions += OnShowOptions;
-            _clipboard = clipboard;
-            _clipboard.ClipAvailable += OnClipAvailable;
             _clipListView.ShowWindow();
+
+            _clipboard = clipboard;
+            _clipboard.ClipAvailable += OnClipAvailable; 
             _clipboard.Initialize(_clipListView.WindowHandle);
+            _clipboard.IsListening = true;
 
             _client = client;
             _client.ClipReceived += OnClipReceived;
@@ -39,6 +42,17 @@ namespace XClip.Client.Controllers
         }
 
         #region ClipList events
+        private void OnToggleConnect()
+        {
+            if (_client.IsConnected)
+            {
+                _client.Disconnect();
+            }
+            else
+            {
+                _loginView.ShowWindow();
+            }
+        }
 
         private void OnShowOptions()
         {
@@ -74,7 +88,7 @@ namespace XClip.Client.Controllers
         {
             _loginView.IsProcessing = false;
             _loginView.CloseWindow();
-            _clipboard.IsListening = true;
+            _clipListView.IsConnected = true;
         }
 
         private void OnClipReceived(Clip clip)
@@ -94,7 +108,7 @@ namespace XClip.Client.Controllers
 
         public void StartApplication()
         {
-            _loginView.ShowWindow();
+
         }
     }
 }

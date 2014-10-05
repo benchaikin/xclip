@@ -25,6 +25,7 @@ namespace XClip.Client.Views
     public partial class ClipList : BaseView, IClipListView
     {
         public event Action<Clip> ClipSelected;
+        public event Action ToggleConnect;
         public event Action Exit;
         public event Action ShowOptions;
 
@@ -41,17 +42,34 @@ namespace XClip.Client.Views
             Dispatcher.Invoke(() =>
             {
                 _clips.Add(clip);
+                _noClipsMessage.Visibility = Visibility.Collapsed;
+                _listView.Visibility = Visibility.Visible;
             });
-        }
-
-        public void NotifyClip(Clip clip)
-        {
-
         }
 
         public IntPtr WindowHandle
         {
             get { return new WindowInteropHelper(this).Handle; }
+        }
+
+        public bool IsConnected
+        {
+            set
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    if (value)
+                    {
+                        _connect.IsEnabled = false;
+                        _disconnect.IsEnabled = true;
+                    }
+                    else
+                    {
+                        _connect.IsEnabled = true;
+                        _disconnect.IsEnabled = false;
+                    }
+                });
+            }
         }
 
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
@@ -63,6 +81,14 @@ namespace XClip.Client.Views
             }
 
             _taskbarIcon.TrayPopupResolved.IsOpen = false;
+        }
+
+        private void OnToggleConnectClicked(object sender, RoutedEventArgs e)
+        {
+            if (ToggleConnect != null)
+            {
+                ToggleConnect();
+            }
         }
 
         private void OnExitClicked(object sender, RoutedEventArgs e)

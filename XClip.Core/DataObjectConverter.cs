@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace XClip.Core
@@ -23,7 +22,7 @@ namespace XClip.Core
             foreach (var format in formats)
             {
                 if (format == DataFormats.MetafilePicture || format == DataFormats.EnhancedMetafile) continue;
-                var clipObject = data.GetData(format);
+                var clipObject = GetDataCrappyRetry(data, format);
                 MemoryStream stream = clipObject as MemoryStream;
                 bool isStream = true;
                 if(stream == null)
@@ -39,6 +38,25 @@ namespace XClip.Core
             }
 
             return result;
+        }
+
+        private object GetDataCrappyRetry(IDataObject data, string format)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    var clipObject = data.GetData(format);
+                    return clipObject;
+                }
+                catch 
+                { 
+                    // Really lame but this clipboard is unreliable
+                    Thread.Sleep(10);
+                }
+            }
+
+            throw new Exception("Unable to access clipboard");
         }
 
         public IDataObject CreateDataObject(Clip clip)

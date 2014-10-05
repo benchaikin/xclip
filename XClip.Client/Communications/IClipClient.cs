@@ -10,6 +10,8 @@ namespace XClip.Client.Communications
         event Action<Clip> ClipReceived;
      
         void Login(string username, string password);
+        void Disconnect();
         void SendClip(Clip clip);
+        bool IsConnected { get; }
     }
 }

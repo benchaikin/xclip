@@ -17,6 +17,16 @@
             >
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
+                    <MenuItem x:Name="_connect" Header="Connect..." Click="OnToggleConnectClicked">
+                        <MenuItem.Icon>
+                            <Image Source="/Resources/connect.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="_disconnect" Header="Disconnect" Click="OnToggleConnectClicked" IsEnabled="False">
+                        <MenuItem.Icon>
+                            <Image Source="/Resources/disconnect.ico" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Options..." Click="OnOptionsClicked">
                         <MenuItem.Icon>
                             <Image Source="/Resources/PropertyIcon.png" />
@@ -31,21 +41,24 @@
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <tb:TaskbarIcon.TrayPopup>
-                <ListBox x:Name="_listView" SelectionMode="Single" MouseUp="OnMouseUp">
-                    <ListBox.Background>
-                        <SolidColorBrush Color="White" Opacity=".7" />
-                    </ListBox.Background>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel VerticalAlignment="Bottom"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <xclip:ClipMessageControl Cursor="Hand" DataContext="{Binding}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <StackPanel>
+                    <TextBox x:Name="_noClipsMessage">No clips available</TextBox>
+                    <ListBox x:Name="_listView" SelectionMode="Single" MouseUp="OnMouseUp" Visibility="Collapsed">
+                        <ListBox.Background>
+                            <SolidColorBrush Color="White" Opacity=".7" />
+                        </ListBox.Background>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel VerticalAlignment="Bottom"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <xclip:ClipMessageControl Cursor="Hand" DataContext="{Binding}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
             </tb:TaskbarIcon.TrayPopup>
 
         </tb:TaskbarIcon>
