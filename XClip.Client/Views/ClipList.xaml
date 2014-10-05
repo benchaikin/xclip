@@ -4,6 +4,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:views="clr-namespace:XClip.Client.Views"
         xmlns:xclip="clr-namespace:XClip.Client.Controls"
+        WindowState="Minimized"
         Visibility="Hidden"
         Title="ClipList" Width="300">
     <Grid>
@@ -41,12 +42,13 @@
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <tb:TaskbarIcon.TrayPopup>
-                <StackPanel>
-                    <TextBox x:Name="_noClipsMessage">No clips available</TextBox>
+                <Grid MinHeight="150" MinWidth="200">
+                    <Grid.Background>
+                        <SolidColorBrush Color="White" Opacity=".7" />
+                    </Grid.Background>
+                    <TextBlock x:Name="_noClipsMessage" VerticalAlignment="Center" HorizontalAlignment="Center"
+                             Background="Transparent">No clips available</TextBlock>
                     <ListBox x:Name="_listView" SelectionMode="Single" MouseUp="OnMouseUp" Visibility="Collapsed">
-                        <ListBox.Background>
-                            <SolidColorBrush Color="White" Opacity=".7" />
-                        </ListBox.Background>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -58,7 +60,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </StackPanel>
+                </Grid>
             </tb:TaskbarIcon.TrayPopup>
 
         </tb:TaskbarIcon>

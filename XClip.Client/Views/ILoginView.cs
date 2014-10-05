@@ -12,6 +12,7 @@ namespace XClip.Client.Views
         string Username { get; }
         string Password { get; }
         string ErrorMessage { set; }
+        string RegisterUrl { set; }
         bool IsProcessing { set; }
     }
 }

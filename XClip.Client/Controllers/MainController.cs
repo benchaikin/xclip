@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using XClip.Client.Communications;
+using XClip.Client.Properties;
 using XClip.Client.Views;
 using XClip.Core;
 
@@ -20,6 +21,7 @@ namespace XClip.Client.Controllers
         public MainController(ILoginView loginView, IClipListView clipListView, IClipboardAdapter clipboard, IClipClient client)
         {
             _loginView = loginView;
+            _loginView.RegisterUrl = Settings.Default.ServerUrl;
             _loginView.CredentialsSubmitted += OnCredentialsSubmitted;
 
             _clipListView = clipListView;

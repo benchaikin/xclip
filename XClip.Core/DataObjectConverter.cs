@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace XClip.Core
 {
-    public class DataObjectConverter
+    public class DataObjectConverter : IDataObjectConverter
     {
         public Clip CreateClip(IDataObject data)
         {

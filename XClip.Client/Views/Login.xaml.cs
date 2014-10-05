@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,14 @@ namespace XClip.Client.Views
             }
         }
 
+        public string RegisterUrl
+        {
+            set 
+            { 
+                Dispatcher.Invoke(() => _registerLink.NavigateUri = new Uri(value)); 
+            }
+        }
+
         public bool IsProcessing
         {
             set 
@@ -74,6 +83,7 @@ namespace XClip.Client.Views
                         _password.IsEnabled = false;
                         _username.IsEnabled = false;
                         _connect.IsEnabled = false;
+                        _registerLink.IsEnabled = false;
                         _progressBar.Visibility = Visibility.Visible;
                     }
                     else
@@ -81,6 +91,7 @@ namespace XClip.Client.Views
                         _password.IsEnabled = true;
                         _username.IsEnabled = true;
                         _connect.IsEnabled = true;
+                        _registerLink.IsEnabled = true;
                         _progressBar.Visibility = Visibility.Collapsed;
                     }
                 });
@@ -92,6 +103,11 @@ namespace XClip.Client.Views
             {
                 Task.Factory.StartNew(CredentialsSubmitted);
             }
+        }
+
+        private void OnRegisterClick(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(e.Uri.ToString());
         }
 
 

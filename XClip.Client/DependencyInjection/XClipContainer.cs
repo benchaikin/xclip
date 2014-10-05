@@ -14,6 +14,7 @@ namespace XClip.Client.DependencyInjection
             // Register all services here
             container.Register<IAuthorizationClient, AuthorizationClient>();
             container.Register<IClipboardAdapter, ClipboardAdapter>();
+            container.Register<IDataObjectConverter, DataObjectConverter>();
             container.Register<IClipClient, SignalRClient>();
 
             container.Register<ILoginView, Login>();

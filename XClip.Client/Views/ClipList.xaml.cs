@@ -35,6 +35,7 @@ namespace XClip.Client.Views
         {
             InitializeComponent();
             _listView.ItemsSource = _clips;
+            Closing += OnClosing;
         }
 
         public void AddClip(Clip clip)
@@ -105,6 +106,11 @@ namespace XClip.Client.Views
             {
                 ShowOptions();
             }
+        }
+
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _taskbarIcon.Dispose();
         }
     }
 }

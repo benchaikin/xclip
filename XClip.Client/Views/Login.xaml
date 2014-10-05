@@ -23,7 +23,10 @@
                 <PasswordBox x:Name="_password" MinWidth="150" VerticalContentAlignment="Center"></PasswordBox>
             </StackPanel>
             <TextBlock Visibility="Collapsed" x:Name="_errorMessage" Margin="0 0 0 5" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Red"></TextBlock>
-            <ProgressBar Visibility="Collapsed" x:Name="_progressBar" IsIndeterminate="True" Height="25" />
+            <TextBlock HorizontalAlignment="Right">Not a user?
+                <Hyperlink x:Name="_registerLink" RequestNavigate="OnRegisterClick">Click here to register</Hyperlink>
+            </TextBlock>
+            <ProgressBar Margin="0 5" Visibility="Collapsed" x:Name="_progressBar" IsIndeterminate="True" Height="25" />
             <Button x:Name="_connect" Click="OnConnectClick" Margin ="0 10 0 0" Width="100" Height="25" HorizontalAlignment="Right" IsDefault="True">Connect</Button>
         </StackPanel>
     </Grid>

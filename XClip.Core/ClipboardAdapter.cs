@@ -19,6 +19,13 @@ namespace XClip.Core
         private HwndSourceHook _hook;
         private HwndSource _source;
 
+        private readonly IDataObjectConverter _converter;
+
+        public ClipboardAdapter(IDataObjectConverter converter)
+        {
+            _converter = converter;
+        }
+
         public void Initialize(IntPtr handle)
         {           
             _source = HwndSource.FromHwnd(handle);
@@ -39,7 +46,7 @@ namespace XClip.Core
         public void SetClipboard(Clip clip)
         {  
                 _source.RemoveHook(_hook);
-                IDataObject obj = new DataObjectConverter().CreateDataObject(clip);
+                IDataObject obj = _converter.CreateDataObject(clip);
                     
                 Clipboard.SetDataObject(obj);
                 _source.AddHook(_hook);
@@ -57,7 +64,7 @@ namespace XClip.Core
                     if (IsListening && ClipAvailable != null)
                     {
                         var obj = Clipboard.GetDataObject();
-                        var clip = new DataObjectConverter().CreateClip(obj);
+                        var clip = _converter.CreateClip(obj);
 
                         Task.Factory.StartNew(() => ClipAvailable(this, new ClipAvailableEventArgs(clip)));
                     }
