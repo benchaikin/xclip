@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using XClip.Client.Controls;
 using XClip.Core;
 
 namespace XClip.Client.Views
@@ -29,10 +18,13 @@ namespace XClip.Client.Views
         public event Action Exit;
         public event Action ShowOptions;
 
-        private ObservableCollection<Clip> _clips = new ObservableCollection<Clip>();
+        private int _maxClipCount = 5;
+
+        private readonly ObservableCollection<Clip> _clips;
 
         public ClipList()
         {
+            _clips = new ObservableCollection<Clip>();
             InitializeComponent();
             _listView.ItemsSource = _clips;
             Closing += OnClosing;
@@ -43,8 +35,17 @@ namespace XClip.Client.Views
             Dispatcher.Invoke(() =>
             {
                 _clips.Add(clip);
-                _noClipsMessage.Visibility = Visibility.Collapsed;
-                _listView.Visibility = Visibility.Visible;
+                CheckNumberOfClips();
+            });
+        }
+
+
+        public void RemoveClip(Clip clip)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                _clips.Remove(clip);
+                CheckNumberOfClips();
             });
         }
 
@@ -72,6 +73,45 @@ namespace XClip.Client.Views
                 });
             }
         }
+
+        public int MaxClipCount
+        {
+            set
+            {
+                _maxClipCount = value;
+                CheckNumberOfClips();
+            }
+        }
+
+        private void CheckNumberOfClips()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (_clips.Any())
+                {
+                    _noClipsMessage.Visibility = Visibility.Collapsed;
+                    _listView.Visibility = Visibility.Visible;
+
+                    int maxClips = _maxClipCount;
+                    if (_clips.Count > maxClips)
+                    {
+                        int numExtra = _clips.Count - maxClips;
+                        var oldClips = _clips.OrderBy(c => c.TimeStamp).Take(numExtra);
+
+                        foreach (var oldClip in oldClips)
+                        {
+                            _clips.Remove(oldClip);
+                        }
+                    }
+                }
+                else
+                {
+                    _noClipsMessage.Visibility = Visibility.Visible;
+                    _listView.Visibility = Visibility.Collapsed;
+                }
+            });
+        }
+
 
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {

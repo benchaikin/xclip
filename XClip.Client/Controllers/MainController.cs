@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using XClip.Client.Communications;
 using XClip.Client.Properties;
@@ -23,12 +19,14 @@ namespace XClip.Client.Controllers
             _loginView = loginView;
             _loginView.RegisterUrl = Settings.Default.ServerUrl;
             _loginView.CredentialsSubmitted += OnCredentialsSubmitted;
+            _loginView.Username = Settings.Default.Username;
 
             _clipListView = clipListView;
             _clipListView.ClipSelected += OnClipSelected;
             _clipListView.Exit += OnExit;
             _clipListView.ToggleConnect += OnToggleConnect;
             _clipListView.ShowOptions += OnShowOptions;
+            _clipListView.MaxClipCount = Settings.Default.MaxClipCount;
             _clipListView.ShowWindow();
 
             _clipboard = clipboard;
@@ -102,6 +100,8 @@ namespace XClip.Client.Controllers
 
         private void OnCredentialsSubmitted()
         {
+            Settings.Default.Username = _loginView.Username;
+            Settings.Default.Save();
             _loginView.IsProcessing = true;
             _loginView.ErrorMessage = "";
             _client.Login(_loginView.Username, _loginView.Password);

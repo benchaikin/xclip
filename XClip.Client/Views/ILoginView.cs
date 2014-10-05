@@ -9,7 +9,7 @@ namespace XClip.Client.Views
     public interface ILoginView : IView
     {
         event Action CredentialsSubmitted;
-        string Username { get; }
+        string Username { get; set; }
         string Password { get; }
         string ErrorMessage { set; }
         string RegisterUrl { set; }

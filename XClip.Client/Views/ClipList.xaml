@@ -42,7 +42,7 @@
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
             <tb:TaskbarIcon.TrayPopup>
-                <Grid MinHeight="150" MinWidth="200">
+                <Grid MinHeight="40" MinWidth="200">
                     <Grid.Background>
                         <SolidColorBrush Color="White" Opacity=".7" />
                     </Grid.Background>

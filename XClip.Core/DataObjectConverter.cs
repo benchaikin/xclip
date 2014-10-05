@@ -21,20 +21,27 @@ namespace XClip.Core
             var formats = data.GetFormats(false);
             foreach (var format in formats)
             {
-                if (format == DataFormats.MetafilePicture || format == DataFormats.EnhancedMetafile) continue;
-                var clipObject = GetDataCrappyRetry(data, format);
-                MemoryStream stream = clipObject as MemoryStream;
-                bool isStream = true;
-                if(stream == null)
+                try
                 {
-                    isStream = false;
-                    stream = new MemoryStream();
-                    var formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, clipObject);
-                }
+                    if (format == DataFormats.MetafilePicture || format == DataFormats.EnhancedMetafile) continue;
+                    var clipObject = GetDataCrappyRetry(data, format);
+                    MemoryStream stream = clipObject as MemoryStream;
+                    bool isStream = true;
+                    if (stream == null)
+                    {
+                        isStream = false;
+                        stream = new MemoryStream();
+                        var formatter = new BinaryFormatter();
+                        formatter.Serialize(stream, clipObject);
+                    }
 
-                result.ClipObjects.Add(new ClipObject(format, stream.ToArray(), isStream));
-                stream.Close();
+                    result.ClipObjects.Add(new ClipObject(format, stream.ToArray(), isStream));
+                    stream.Close();
+                }
+                catch (Exception)
+                {
+                    // We can't handle this format... log?
+                }
             }
 
             return result;

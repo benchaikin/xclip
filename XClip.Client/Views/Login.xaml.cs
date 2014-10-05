@@ -37,6 +37,17 @@ namespace XClip.Client.Views
         public string Username
         {
             get { return Dispatcher.Invoke(() => _username.Text); }
+            set
+            {
+                Dispatcher.Invoke(() => 
+                {
+                    _username.Text = value;
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        _password.Focus();
+                    }
+                }); 
+            }
         }
 
         public string Password

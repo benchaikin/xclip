@@ -16,7 +16,7 @@
             <TextBlock Text="{Binding TimeStamp}" />
         </StackPanel>
 
-        <ContentControl Grid.Row="1" x:Name="_clipContainer" Background="Transparent">
+        <ContentControl MaxHeight="200" MaxWidth="200" Grid.Row="1" x:Name="_clipContainer" Background="Transparent">
             <ContentControl.Effect>
                 <DropShadowEffect />
             </ContentControl.Effect>

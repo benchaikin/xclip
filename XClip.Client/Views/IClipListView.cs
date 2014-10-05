@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XClip.Core;
 
 namespace XClip.Client.Views
@@ -13,6 +9,8 @@ namespace XClip.Client.Views
         event Action Exit;
         event Action ShowOptions;
         event Action<Clip> ClipSelected;
+
+        int MaxClipCount { set; }
         void AddClip(Clip clip);
         bool IsConnected { set; } 
         IntPtr WindowHandle { get; }
